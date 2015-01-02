@@ -18,7 +18,16 @@
         <property name="CanFocus">True</property>
         <property name="Position">32</property>
         <child>
-          <placeholder />
+          <widget class="Gtk.Entry" id="Search">
+            <property name="MemberName" />
+            <property name="CanFocus">True</property>
+            <property name="IsEditable">True</property>
+            <property name="InvisibleChar">●</property>
+            <signal name="Changed" handler="OnSearchChanged" after="yes" />
+          </widget>
+          <packing>
+            <property name="Resize">False</property>
+          </packing>
         </child>
         <child>
           <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">

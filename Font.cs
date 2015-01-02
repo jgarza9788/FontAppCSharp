@@ -35,6 +35,17 @@ public class Font : IComparable<Font> //inherits from IComparable...for sorting 
 	}
 
 	//allows me to sort the font list
+	public Label FontLabel()
+	{
+		Label FL = new Label(FontName);
+		FL.Xalign = 0.1f;
+		FL.ModifyFont(Pango.FontDescription.FromString(FontName + " 16"));
+		FL.Justify = Justification.Left;
+
+		return FL;
+	}
+
+	//allows me to sort the font list
 	public int CompareTo(Font other)
 	{
 		return String.Compare(FontName,other.FontName);

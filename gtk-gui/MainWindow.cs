@@ -4,6 +4,7 @@
 public partial class MainWindow
 {
 	private global::Gtk.VPaned vPane;
+	private global::Gtk.Entry Search;
 	private global::Gtk.ScrolledWindow GtkScrolledWindow;
 	private global::Gtk.Table FontTable;
 	
@@ -20,19 +21,28 @@ public partial class MainWindow
 		this.vPane.Name = "vPane";
 		this.vPane.Position = 32;
 		// Container child vPane.Gtk.Paned+PanedChild
+		this.Search = new global::Gtk.Entry ();
+		this.Search.CanFocus = true;
+		this.Search.Name = "Search";
+		this.Search.IsEditable = true;
+		this.Search.InvisibleChar = '●';
+		this.vPane.Add (this.Search);
+		global::Gtk.Paned.PanedChild w1 = ((global::Gtk.Paned.PanedChild)(this.vPane [this.Search]));
+		w1.Resize = false;
+		// Container child vPane.Gtk.Paned+PanedChild
 		this.GtkScrolledWindow = new global::Gtk.ScrolledWindow ();
 		this.GtkScrolledWindow.Name = "GtkScrolledWindow";
 		this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
 		// Container child GtkScrolledWindow.Gtk.Container+ContainerChild
-		global::Gtk.Viewport w1 = new global::Gtk.Viewport ();
-		w1.ShadowType = ((global::Gtk.ShadowType)(0));
+		global::Gtk.Viewport w2 = new global::Gtk.Viewport ();
+		w2.ShadowType = ((global::Gtk.ShadowType)(0));
 		// Container child GtkViewport.Gtk.Container+ContainerChild
 		this.FontTable = new global::Gtk.Table (((uint)(3)), ((uint)(2)), false);
 		this.FontTable.Name = "FontTable";
 		this.FontTable.RowSpacing = ((uint)(6));
 		this.FontTable.ColumnSpacing = ((uint)(6));
-		w1.Add (this.FontTable);
-		this.GtkScrolledWindow.Add (w1);
+		w2.Add (this.FontTable);
+		this.GtkScrolledWindow.Add (w2);
 		this.vPane.Add (this.GtkScrolledWindow);
 		this.Add (this.vPane);
 		if ((this.Child != null)) {
@@ -42,5 +52,6 @@ public partial class MainWindow
 		this.DefaultHeight = 668;
 		this.Show ();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
+		this.Search.Changed += new global::System.EventHandler (this.OnSearchChanged);
 	}
 }

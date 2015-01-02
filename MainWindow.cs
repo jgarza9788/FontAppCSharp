@@ -22,7 +22,7 @@ public partial class MainWindow: Gtk.Window
 		GetFonts(Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "/Library/Fonts");
 
 		//System Fonts
-//		GetFonts(@"/Library/Fonts");
+		GetFonts(@"/Library/Fonts");
 
 		//Sort Fonts by Name
 		AllFonts.Sort();
@@ -67,13 +67,8 @@ public partial class MainWindow: Gtk.Window
 		FontNum = 1;
 		foreach (Font F in AllFonts)
 		{
-			//make font label and add it to the window
-			Label FL = new Label(F.FontName);
-			FL.Xalign = 0.1f;
-			FontTable.Attach(FL, 0,1,FontNum -1, FontNum);
-
-			FL.ModifyFont(Pango.FontDescription.FromString(F.FontName + " 16"));
-			FL.Justify = Justification.Left;
+			//Add Font Label to window
+			FontTable.Attach(F.FontLabel(), 0,1,FontNum -1, FontNum);
 
 			//Add open in finder button to window
 			FontTable.Attach(F.OpenInFinder(), 1,2,FontNum -1, FontNum);
@@ -88,4 +83,68 @@ public partial class MainWindow: Gtk.Window
 		Application.Quit ();
 		a.RetVal = true;
 	}
+
+	protected void OnSearchChanged (object sender, EventArgs e)
+	{
+//		Console.WriteLine(Search.Text);
+
+		//Remove all the old stuff
+		foreach (Widget W in FontTable.Children)
+		{
+//			Console.WriteLine(W.Name);
+			FontTable.Remove(W);
+			W.Destroy();
+		}
+
+		//set deault rows and columns
+		FontTable.NRows = (uint) 3;
+		FontTable.NColumns = (uint) 2;
+
+		//make a SearchResults list
+		List<Font> SearchResults = new List<Font>();
+
+		//add matching fonts to the SearchResults list
+		uint SearchCount;
+		SearchCount = 0;
+		foreach (Font F in AllFonts)
+		{
+//			Console.WriteLine(F.FontName.Contains(Search.Text).ToString());
+
+			if (F.FontName.ToUpper().Contains(Search.Text.ToUpper()))
+			{
+				SearchResults.Add (F);
+				SearchCount = SearchCount + 1;
+			}
+		}
+
+		//add results to window
+		try
+		{
+			FontTable.NRows = (uint) 3;
+			FontTable.NColumns = (uint) 2;
+			FontTable.NRows = SearchCount;
+
+			uint SA;
+			SA = 1;
+			foreach (Font SR in SearchResults)
+			{
+				//Add Font Label to window
+				FontTable.Attach(SR.FontLabel(), 0,1,SA -1, SA);
+				
+				//Add open in finder button to window
+				FontTable.Attach(SR.OpenInFinder(), 1,2,SA -1, SA);
+
+				SA = SA + 1;
+			}
+
+			//show everything
+			ShowAll();
+
+		}
+		catch(Exception)
+		{}
+
+	}
+
+
 }
